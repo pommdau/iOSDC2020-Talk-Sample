@@ -1,0 +1,40 @@
+# ワークフローの名前
+name: CI  
+
+# CIが実行されるトリガーを指定
+# 頻度はお値段と相談
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths-ignore:  # READMEのpush時は無視する
+      - Docs/**  # Docs以下に画像等を配置している想定
+      - README.md
+  pull_request:
+    branches:
+      - develop
+    paths-ignore:
+      - Docs/**
+      - README.md
+
+# 環境変数を指定
+# トップレベルに書くことで全ジョブ共通に設定
+env:
+  DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  test:
+    # The type of runner that the job will run on
+    runs-on: macOS-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      # name: stepに名前をつける
+      - name: Cache Gems  # キャッシュの作成と復元
+      
